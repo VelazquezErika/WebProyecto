@@ -33,7 +33,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [env('ALLOWED_HOSTS')]
+ALLOWED_HOSTS = ['54.152.80.80']
 print(ALLOWED_HOSTS)
 
 
@@ -86,15 +86,14 @@ WSGI_APPLICATION = 'mymovies.wsgi.application'
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "django",
-        "USER": "ubuntu",
-        "PASSWORD": "",
-        "HOST": "/tmp",
+        "ENGINE":"django.db.backends.postgresql",
+        "NAME":"django",
+        "USER":"ubuntu",
+        "PASSWORD":"123AWS",
+        "HOST": "localhost",
         "PORT": "5432",
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -118,7 +117,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-mx'
 
 TIME_ZONE = 'UTC'
 
@@ -133,7 +132,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
+    BASE_DIR / "movies/static",
     '/home/ubuntu/ProgWeb/Tutoriales/css'
 ]
 
