@@ -9,5 +9,6 @@ urlpatterns = [
     path('movie_Mas/add/<int:movie_id>/', add_Mas),
     path('movie_prueba/add<int:movie_id>', add_prueba),
     path('movie_reviews/<int:movie_id>/', movie_reviews, name='movie_reviews'),
+    path('search/', search_movies, name='search_movies'),#url para la busqueda de peliculas
     path('', index)
 ]

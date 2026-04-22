@@ -2,8 +2,25 @@ from django.shortcuts import render
 from django.http import HttpResponse , HttpResponseRedirect
 from movies.models import Movie, MovieReview, Person, MovieMas, MoviePrueba
 from movies.forms import MovieReviewForm, MovieMasCommentForm
+from django.db.models import Q
 
 # Create your views here.
+def search_movies(request):
+    query = request.GET.get('q', '')
+    
+    if query:
+        # Filtramos por título (title) o descripción (overview)
+        # Nota: En tu modelo es 'overview', no 'description'
+        results = Movie.objects.filter(
+            Q(title__icontains=query) | Q(overview__icontains=query)
+        )
+    else:
+        results = Movie.objects.none()
+
+    return render(request, 'movies/search_results.html', {
+        'results': results,
+        'query': query
+    })
 
 def all_movies(request):
     movies = Movie.objects.all() #Movies de la DB

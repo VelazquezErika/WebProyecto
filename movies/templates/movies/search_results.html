@@ -1,0 +1,49 @@
+{% extends "movies/base.html" %}
+
+{% block content %}
+<div class="mx-auto max-w-7xl px-4 py-8">
+    <h1 class="text-2xl font-bold mb-6 text-white">Resultados para "{{ query }}"</h1>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        {% for movie in results %}
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col transform hover:scale-105 transition-transform duration-200">
+            
+            <a href="/movies/{{ movie.id }}/">
+                <img 
+                    class="block h-80 w-full object-cover object-center"
+                    src="https://image.tmdb.org/t/p/w600_and_h900_bestv2/{{ movie.poster_path }}" 
+                    alt="{{ movie.title }}" 
+                    onerror="this.src='https://via.placeholder.com/600x900?text=Sin+Poster';"
+                />
+            </a>
+            
+            <div class="p-4 flex flex-col flex-grow">
+                <a href="/movies/{{ movie.id }}/" class="hover:text-sky-600">
+                    <h3 class="font-bold text-lg text-gray-900 leading-tight">{{ movie.title }}</h3>
+                </a>
+                
+                <p class="text-sm text-gray-500 mt-1">
+                    {{ movie.release_date|date:"Y"|default:"S/N" }}
+                </p>
+
+                <div class="mt-auto pt-4 flex items-center justify-between">
+                    <div class="flex items-center text-yellow-500">
+                        <svg class="h-4 w-4 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                        <span class="ml-1 text-sm font-bold text-gray-700">{{ movie.vote_average }}</span>
+                    </div>
+                    
+                    <a href="/movies/{{ movie.id }}/" class="text-xs font-semibold bg-sky-600 text-white px-3 py-1.5 rounded-md hover:bg-sky-700 transition">
+                        Ver detalles
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-span-full text-center py-20">
+            <p class="text-gray-400 text-xl font-thin">No encontramos ninguna película que coincida con tu búsqueda.</p>
+            <a href="/" class="text-sky-500 hover:underline mt-4 block">Volver al inicio</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
