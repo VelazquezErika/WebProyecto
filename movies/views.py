@@ -1,25 +1,18 @@
 from django.shortcuts import render
 from django.http import HttpResponse , HttpResponseRedirect
-from movies.models import Movie, MovieReview, Person, MovieMas, MoviePrueba
+from movies.models import Movie, MovieReview, Person
 from movies.forms import MovieReviewForm, MovieMasCommentForm
 
-# Create your views here.
 
 def all_movies(request):
-    movies = Movie.objects.all() #Movies de la DB
+    movies = Movie.objects.all()
     context = { 'objetos': movies, 'message': 'welcome' }
     return render(request, 'movies/allmovies.html', context=context)
 
 def index(request):
-    movies = Movie.objects.all()
-    context = { 'movies':movies, 'message':'welcome' }
-    return render(request,'movies/index.html', context=context )
-    
-def saludo(request, veces):
-    saludo = ' HOLA ' * veces
-    personas = Person.objects.all()
-    context = {'saludo':saludo, 'lista':[personas]}
-    return render(request,'movies/saludo.html', context=context)
+    movies = Movie.objects.order_by('-release_date')[:8]
+    context = { 'movies': movies, 'message': 'welcome' }
+    return render(request, 'movies/index.html', context=context)
 
 def movie(request, movie_id):
     movie = Movie.objects.get(id=movie_id)
@@ -31,45 +24,7 @@ def movie(request, movie_id):
 
 def movie_reviews(request, movie_id):
     movie = Movie.objects.get(id=movie_id)
-    return render(request,'movies/reviews.html', context={'movie':movie } )
-    
-def add_Mas(request, movie_id):
-    form = None
-    movie = Movie.objects.get(id=movie_id)
-    if request.method == 'POST':
-        form = MovieMasCommentForm(request.POST)
-        if form.is_valid():
-            review = form.cleaned_data['review']
-            movie_Mas = MovieMasCommentForm(
-                    movie=movie,
-                    review=review,
-                    user=request.user)
-            movie_like.save()
-            return HttpResponseRedirect('/movies/')
-    else:
-        form = MovieMasCommentForm()
-        return render(request,
-                  'movies/movie_MasComment_form.html',
-                  {'form': form, 'movie':movie})
-
-def add_prueba(request, movie_id):
-    form = None
-    movie = Movie.objects.get(id=movie_id)
-    if request.method == 'POST':
-        form = MoviePruebaForm(request.POST)
-        if form.is_valid():
-            review = form.cleaned_data['review']
-            movie_Mas = MoviePrueba(
-                    movie=movie,
-                    review=review,
-                    user=request.user)
-            movie_like.save()
-            return HttpResponseRedirect('/movies/')
-    else:
-        form = MoviePruebaForm()
-        return render(request,
-                  'movies/movie_MasComment_form.html',
-                  {'form': form, 'movie':movie})
+    return render(request,'movies/reviews.html', context={'movie':movie} )
 
 def add_review(request, movie_id):
     form = None
