@@ -10,7 +10,6 @@ urlpatterns = [
     
     # Colecciones y Mis Películas
     path('mis-peliculas/', views.mis_peliculas, name='mis_peliculas'),
-    path('collections/', views.collections, name='collections'),
     
     # Reseñas
     path('movie_review/add/<int:movie_id>/', views.add_review, name='add_review'),
