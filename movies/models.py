@@ -13,6 +13,8 @@ class Genre(models.Model):
     
 class Person(models.Model):
     name = models.CharField(max_length=128)
+    photo_url = models.URLField(blank=True, null=True)
+    biography = models.TextField(blank=True, null=True)
     
     def __str__(self):
         return self.name
@@ -42,14 +44,10 @@ class Movie(models.Model):
 
 
 class MovieCredit(models.Model):
-    person = models.ForeignKey(Person, on_delete=models.CASCADE)
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    person = models.ForeignKey(Person, on_delete=models.CASCADE, related_name='movie_credits')
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='movie_credits')
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
-
-class MovieMas(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
-    revierw = models.TextField(blank=True)
+    character = models.CharField(max_length=200, blank=True, null=True)
 
 class MovieReview(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

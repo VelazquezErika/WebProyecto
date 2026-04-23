@@ -1,8 +1,16 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse , HttpResponseRedirect
 from movies.models import Movie, MovieReview, Person
 from movies.forms import MovieReviewForm, MovieMasCommentForm
 
+def actor_detail(request, id):
+    actor = get_object_or_404(Person, id=id)
+    movies = actor.movie_credits.all()
+
+    return render(request, 'movies/actor_detail.html', {
+        'actor': actor,
+        'movies': movies
+    })
 
 def all_movies(request):
     movies = Movie.objects.all()
