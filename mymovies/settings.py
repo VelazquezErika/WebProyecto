@@ -33,7 +33,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['54.152.80.80']
+ALLOWED_HOSTS = ['54.152.80.80','54.236.122.27']
 print(ALLOWED_HOSTS)
 
 
@@ -89,7 +89,7 @@ DATABASES = {
         "ENGINE":"django.db.backends.postgresql",
         "NAME":"django",
         "USER":"ubuntu",
-        "PASSWORD":"123AWS",
+        "PASSWORD":"1234",
         "HOST": "localhost",
         "PORT": "5432",
     }
