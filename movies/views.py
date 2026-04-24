@@ -42,7 +42,7 @@ def movie(request, movie_id):
         genres__in=generos_actuales
     ).exclude(
         id=movie_obj.id
-    ).distinct().order_by('?')[:4]
+    ).distinct().order_by('?')[:10]
     
     review_form = MovieReviewForm()
     
