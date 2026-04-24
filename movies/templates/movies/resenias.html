@@ -1,0 +1,50 @@
+{% extends 'movies/base.html' %}
+
+{% block content %}
+<div class="max-w-5xl mx-auto py-8 px-4">
+    <h1 class="text-3xl font-bold text-gray-100 mb-8 text-center">Reseñas</h1>
+
+    <div class="space-y-6">
+        {% for r in resenias %}
+        <div class="flex bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200">
+            
+            <a href="{% url 'movie' r.movie.id %}" class="w-16 sm:w-32 flex-none hover:opacity-80 transition-opacity">
+                {% if r.movie.poster_path %}
+                    <img src="https://image.tmdb.org/t/p/w500{{ r.movie.poster_path }}" alt="{{ r.movie.title }}" class="h-full w-full object-cover">
+                {% else %}
+                    <div class="bg-gray-200 h-full w-full flex items-center justify-center text-gray-400 text-xs text-center p-2">Sin póster</div>
+                {% endif %}
+            </a>
+
+            <div class="flex-grow p-4 sm:p-6">
+                <div class="flex justify-between items-start">
+                    <a href="{% url 'movie' r.movie.id %}" class="group">
+                        <h2 class="text-xl font-bold text-sky-700 group-hover:text-sky-500 transition-colors">
+                            {{ r.movie.title }}
+                        </h2>
+                    </a>
+                    
+                    <span class="text-xs font-semibold bg-sky-100 text-sky-800 px-2 py-1 rounded-full uppercase hover:bg-sky-200 transition-colors">
+                        <a href="{% url 'perfil_usuario' r.user.username %}">
+                            {{ r.user.username }}
+                        </a>
+                    </span>
+                </div>
+                
+                <p class="text-gray-500 text-sm mt-1 italic">
+                    Escrito por: <a href="{% url 'perfil_usuario' r.user.username %}" class="hover:text-sky-600">@{{ r.user.username }}</a>
+                </p>
+                
+                <div class="mt-4 text-gray-700 bg-gray-50 p-3 rounded border-l-4 border-sky-500">
+                    "{{ r.review }}"
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="text-center py-10">
+            <p class="text-gray-400 text-lg">Nadie ha escrito reseñas todavía.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

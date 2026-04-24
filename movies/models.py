@@ -62,4 +62,4 @@ class MovieReview(models.Model):
 class MovieMas(models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    revierw = models.TextField(null=True, blank=True)
+    review = models.TextField(null=True, blank=True)
