@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from movies.models import Movie, MovieReview, Person, MovieMas, MoviePrueba
@@ -149,3 +150,24 @@ def add_prueba(request, movie_id):
         )
         return HttpResponseRedirect('/movies/')
     return render(request, 'movies/movie_MasComment_form.html', {'movie': movie})
+
+#muestra las resenias sin estar logerado:
+#AGREGADO 
+#
+#
+def resenias(request):
+
+    todas_las_resenias = MovieReview.objects.all().order_by('-id') 
+    
+    context = {
+        'resenias': todas_las_resenias,
+        'message': 'Todas las Reseñas de la Comunidad'
+    }
+    
+    return render(request, 'movies/resenias.html', context=context)
+def perfil_usuario(request, username):
+    usuario = get_object_or_404(User, username=username)
+    
+    resenias_filtradas = MovieReview.objects.filter(user=usuario).select_related('movie').order_by('-id')
+
+    return render(request, 'movies/resenias.html', {'resenias': resenias_filtradas, 'perfil': usuario})

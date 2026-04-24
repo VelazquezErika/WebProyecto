@@ -29,6 +29,16 @@
                         pt-1 text-sm font-medium text-gray-500 hover:border-gray-300
                         hover:text-gray-700">Mis Peliculas</a>
 
+                  <a href="{% url 'resenias' %}" class="inline-flex items-center border-b-2 
+                        {% if request.path == '/collections/' %}
+                        border-sky-600 
+                        {% else %} 
+                        border-transparent
+                        {% endif %}
+
+                        px-1
+                        pt-1 text-sm font-medium text-gray-500 hover:border-gray-300
+                        hover:text-gray-700">Reseñas</a>
         {% endif %}
 
         </div>
