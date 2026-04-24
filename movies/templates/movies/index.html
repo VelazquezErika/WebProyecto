@@ -38,7 +38,9 @@
         shadow-sm hover:bg-[#cc9e08] focus-visible:outline
         focus-visible:outline-2 focus-visible:outline-offset-2 
         focus-visible:outline-[#e5b509]"
-        hx-get="/movies/random" hx-target="#artworks-container" hx-swap="beforeend"
+         hx-get="{% url 'random_movies' %}"
+    hx-target="#artworks-container"
+    hx-swap="beforeend">
     >Más películas</button>
   {% endif %}
 </div>

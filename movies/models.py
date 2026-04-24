@@ -10,7 +10,7 @@ class Genre(models.Model):
     
 class Person(models.Model):
     name = models.CharField(max_length=128)
-    photo_url = models.URLField(blank=True, null=True)
+    photo_url = models.CharField(max_length=255, blank=True, null=True)  # ← cambio aquí
     biography = models.TextField(blank=True, null=True)
     
     def __str__(self):
@@ -55,4 +55,4 @@ class MovieReview(models.Model):
 class MovieMas(models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    review = models.TextField(null=True, blank=True)
+    revierw = models.TextField(null=True, blank=True)

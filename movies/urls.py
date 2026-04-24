@@ -17,6 +17,7 @@ urlpatterns = [
     #AGREGADO
     path('resenias/', views.resenias, name='resenias'),
     path('usuario/<str:username>/', views.perfil_usuario, name='perfil_usuario'),
+    path('random/', views.random_movies, name='random_movies'),
     
     # Reseñas
     path('movie_review/add/<int:movie_id>/', views.add_review, name='add_review'),

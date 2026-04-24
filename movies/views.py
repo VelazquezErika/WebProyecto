@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from movies.models import Movie, MovieReview, Person, MovieMas, MoviePrueba
+from movies.models import Movie, MovieReview, Person, MovieMas
 from movies.forms import MovieReviewForm, MovieMasCommentForm
 from django.db.models import Q
 
@@ -118,6 +118,10 @@ def add_Mas(request, movie_id):
         return HttpResponse(status=204)
     return HttpResponseRedirect(f'/movies/{movie_id}/')
 
+def random_movies(request):
+    movies = Movie.objects.order_by('?')[:8]
+    return render(request, 'movies/movies_partial.html', {'movies': movies})
+    
 @login_required
 def remove_Mas(request, movie_id):
     if request.method == 'POST':

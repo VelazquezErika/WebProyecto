@@ -1,0 +1,18 @@
+{% for movie in movies %}
+<div class="bg-[#1a1a1a] rounded-lg overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105">
+  <img
+    class="w-full h-[300px] sm:h-[320px] md:h-[340px] lg:h-[360px] object-cover"
+    src="https://image.tmdb.org/t/p/w600_and_h900_bestv2/{{movie.poster_path}}"
+    alt="{{movie.title}}" />
+  
+  <div class="p-4 text-center">
+    <a href="/movies/{{movie.id}}"
+       class="block text-[#e5b509] font-semibold text-sm sm:text-base hover:underline">
+      {{movie.title|truncatechars:30}}
+    </a>
+    <span class="text-gray-400 text-xs sm:text-sm block mt-1">
+      {{movie.release_date|date:"d/m/Y"}}
+    </span>
+  </div>
+</div>
+{% endfor %}

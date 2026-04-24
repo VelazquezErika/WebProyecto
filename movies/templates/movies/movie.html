@@ -1,196 +1,101 @@
 {% extends "movies/base.html" %}
 
 {% block content %}
-<article>
-  <div class="container flex mx-auto px-5 py-2 lg:px-32 lg:pt-12 ">
-    <div class="overflow-hidden rounded-lg bg-white shadow w-1/3 h-full">
-      <div class="px-4 py-5 sm:p-6">
-          <div class="w-full p-1 md:p-2">
-            <img
-              class="block h-full w-full rounded-lg object-cover object-center"
-              src="https://image.tmdb.org/t/p/w600_and_h900_bestv2/{{movie.poster_path}}" alt="{{movie.title}}" />
-          </div>
-      </div>
-      <div class="bg-gray-50 px-4 py-4 sm:px-6">
-          <div class=" -m-1 h-12 mt-1 mb-5 "> 
-            <p class="mt-3 pl-8 text-gray-600 font-thin"> Data from: </p>
-            <a href="https://www.tmdb.org{{movie.poster_path}}" class="block overflow-hidden text-ellipsis pl-5 text-sky-600 pb-5"> tmdb.org </a>
-          </div>
-      </div>
-    </div>
-
-    <div class="overflow-hidden w-1/2 h-full">
-      <div class="px-4 py-4 sm:px-6">
-          <div class=" -m-1 mt-1 mb-5 "> 
-            <p class="block overflow-hidden text-ellipsis pl-5 dark:text-gray-200 text-xl font-bold"> 
-              {{movie.title}} ({{movie.release_date|date:"Y"}}) 
-            </p>
-            
-            <p class="mt-1 pl-5 text-gray-600 text-xs font-thin"> 
-              {% for g in movie.genres.all %} 
-                {{g}} {% if not forloop.last %} - {% endif %}
-              {% endfor %}  
-            </p>
-
-            <div class="flex mt-2 items-center">
-              {% if user.is_authenticated %}
-                <a class="pl-5 text-blue-600 text-sm hover:underline"   
-                   hx-get="/movies/movie_review/add/{{movie.id}}" 
-                   hx-target="body" 
-                   hx-swap="beforeend" 
-                   href="#">Reseñar</a> 
-                
-                <form action="{% url 'add_Mas' movie.id %}" method="POST" class="inline">
-                  {% csrf_token %}
-                  <button 
-                    hx-post="{% url 'add_Mas' movie.id %}" 
-                    hx-swap="none"
-                    class="pl-5 text-blue-600 text-sm hover:underline"
-                    onclick="this.innerText=' Guardada'; this.disabled=true;">
-                    Me Gusta
-                  </button>
-                </form>
-              {% endif %}
-            </div> 
-<a href='/movie/movie_Mas/add/{{movie_id}}'></a>
-
-<div id="movie-detail-page" class="page" style="font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
-    <div class="top-movie" style="display: flex; flex-wrap: wrap; gap: 30px; background-color: transparent; border-radius: 0px; padding: 20px; margin-bottom: 30px; max-width: 900px; margin-left: auto; margin-right: auto; justify-content: center;">
-        <img class="poster" style="width: 220px; border-radius: 0px;" src="https://image.tmdb.org/t/p/w600_and_h900_bestv2/{{movie.poster_path}}" alt="{{movie.title}}">
+<div id="movie-detail-page" class="page" style="font-family: system-ui, -apple-system, sans-serif; color: #fff; padding-top: 20px;">
+    
+    <div class="top-movie" style="display: flex; flex-wrap: wrap; gap: 40px; justify-content: center; max-width: 1100px; margin: 0 auto; padding: 20px;">
         
-        <div class="movie-details" style="flex: 1; min-width: 250px;">
-            <h1 class="movie-title" style="font-size: 28px; margin-bottom: 15px; color: #e5b509;">{{movie.title}} ({{movie.release_date|date:"Y"}})</h1>
+        <div class="poster-container" style="flex: 0 0 300px;">
+            <img class="poster" style="width: 100%; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.5);" 
+                 src="https://image.tmdb.org/t/p/w600_and_h900_bestv2/{{movie.poster_path}}" alt="{{movie.title}}">
+        </div>
+        
+        <div class="movie-details" style="flex: 1; min-width: 300px;">
+            <h1 style="font-size: 36px; color: #e5b509; margin-bottom: 10px;">{{movie.title}} ({{movie.release_date|date:"Y"}})</h1>
             
-            <div class="movie-info" style="display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 20px; font-size: 14px;">
-                <p style="color: #ffffff;">{{movie.release_date|date:"d/m/Y"}}</p>
-                <ul class="movie-genre" style="display: flex; list-style: none; gap: 10px; flex-wrap: wrap;">
+            <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 20px; font-size: 14px;">
+                <span>{{movie.release_date|date:"d/m/Y"}}</span>
+                <div style="display: flex; gap: 8px;">
                     {% for g in movie.genres.all %}
-                    <li style="background-color: #e5b509; border-radius: 9999px; font-size: 12px; padding: 2px 10px; color: #000;">{{g}}</li>
+                    <span style="background: #e5b509; color: #000; padding: 2px 12px; border-radius: 20px; font-weight: bold; font-size: 12px;">{{g}}</span>
                     {% endfor %}
-                </ul>
-                <p>{% if movie.runtime %}{{movie.runtime}} min{% endif %}</p>
+                </div>
+                {% if movie.running_time %}<span>{{movie.running_time}} min</span>{% endif %}
             </div>
 
-            <div class="overview" style="margin: 20px 0; line-height: 1.6;">
-                <strong style="font-size: 14px; color: #e5b509;">Sinopsis:</strong>
-                <p style="margin-top: 8px; font-size: 14px; color: #e0e0e0;">{{movie.overview}}</p>
-            </div>
-            <div style="margin-top: 20px; font-size: 12px; color: #aaa;">
-                Data from: <a href="https://www.tmdb.org{{artwork.path}}" style="color: #e5b509; text-decoration: none;">tmdb.org{{artwork.path}}</a>
-            </div>
-
-            <div class="flex mt-2" style="margin-top: 20px; display: flex; gap: 20px;">
+            <div style="display: flex; gap: 20px; margin-bottom: 30px;">
                 {% if user.is_authenticated %}
-                <a class="text-sm" style="color: #e5b509; text-decoration: none;" hx-get="/movies/movie_review/add/{{movie.id}}" hx-target="body" hx-swap="beforeend" href="#">reviews</a>
+                <a style="color: #e5b509; text-decoration: none; font-weight: bold; border: 1px solid #e5b509; padding: 8px 16px; border-radius: 5px;" 
+                   hx-get="/movies/movie_review/add/{{movie.id}}" hx-target="body" hx-swap="beforeend" href="#">
+                   + Reseñar
+                </a>
+                
+                <form action="{% url 'add_Mas' movie.id %}" method="POST" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" hx-post="{% url 'add_Mas' movie.id %}" hx-swap="none"
+                            style="background: transparent; color: #e5b509; border: 1px solid #e5b509; padding: 8px 16px; border-radius: 5px; cursor: pointer; font-weight: bold;"
+                            onclick="this.innerText='✓ Guardada'; this.disabled=true;">
+                        Me Gusta
+                    </button>
+                </form>
                 {% endif %}
-                <a class="text-sm" style="color: #e5b509; text-decoration: none;" href="#">like</a>
             </div>
-            
-            <h1 class="mt-5 text-gray-600 text-base pl-5 font-semibold">Overview</h1>
-            <p class="mt-2 pl-5 text-gray-500 text-sm font-normal font-sans">{{ movie.overview }}</p>
-            
-            <p class="mt-5 text-gray-600 text-sm pl-5 font-semibold"> Credits: </p>
-            <p class="mt-2 pl-5 text-gray-600 text-sm font-thin">
-              {% for c in movie.credits.all %} 
-                {{c}} {% if not forloop.last %} - {% endif %}
-              {% endfor %}  
-            </p> 
 
-            <p class="block overflow-hidden mt-6 mb-3 text-ellipsis dark:text-gray-200 text-xl font-bold"> 
-              Reseñas: 
-            </p>
-
-            <div hx-trigger="listChanged from:body" hx-get="{% url 'movie_reviews' movie.id %}" hx-target="this">
-              {% include "movies/reviews.html" %}
+            <div style="margin-bottom: 25px;">
+                <h3 style="color: #e5b509; font-size: 18px; margin-bottom: 10px;">Sinopsis</h3>
+                <p style="line-height: 1.6; color: #ccc;">{{ movie.overview }}</p>
             </div>
-          </div>
-      </div>
         </div>
     </div>
 
-    <div class="cast-section" style="max-width: 900px; margin-left: auto; margin-right: auto;">
-        <h2 style="margin: 30px 0 20px 0; font-size: 22px; font-weight: 600; color: #e5b509;">Top Billed Cast</h2>
-        <div class="cast" style="display: flex; gap: 20px; overflow-x: auto; padding-bottom: 15px;">
-            {% for credit in movie.movie_credits.all %}
-            
-            <a href="{% url 'actor_detail' credit.person.id %}" style="text-decoration: none; color: inherit;">
-              <div class="cast-item" style="min-width: 120px; text-align: center; background-color: transparent; border-radius: 0px; padding: 10px;">
-               <img style="width: 90px; height: 90px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; border: 2px solid #e5b509;" src="{{ credit.person.photo_url }}" alt="{{ credit.person.name }}">
-               <h4 style="font-size: 13px; margin-bottom: 5px; font-weight: 500;">{{ credit.person.name }}</h4>
-               <p style="font-size: 11px; color: #aaa;">{{ credit.character }}</p>
-              </div>
-            </a>
-
-            {% endfor %}
-        </div>
+    <div style="max-width: 1100px; margin: 40px auto; padding: 0 20px;">
+    <h2 style="color: #e5b509; font-size: 24px; border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 20px;">Reparto Principal</h2>
+    <div style="display: flex; gap: 20px; overflow-x: auto; padding-bottom: 20px; scrollbar-color: #e5b509 #1a1a1a;">
+        {% for credit in movie.movie_credits.all %}
+        <a href="{% url 'actor_detail' credit.person.id %}" style="text-decoration: none; min-width: 110px; text-align: center;">
+            <div style="width: 90px; height: 90px; margin: 0 auto 10px auto; border-radius: 50%; overflow: hidden; border: 2px solid #e5b509; background: #222;">
+                {% if credit.person.photo_url %}
+                    <img src="https://image.tmdb.org/t/p/w185{{ credit.person.photo_url }}" 
+                         style="width: 100%; height: 100%; object-fit: cover;"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div style="display:none; width:100%; height:100%; align-items:center; justify-content:center; font-size:28px; color:#e5b509;">
+                        👤
+                    </div>
+                {% else %}
+                    <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:28px; color:#e5b509;">
+                        👤
+                    </div>
+                {% endif %}
+            </div>
+            <p style="font-size: 13px; font-weight: bold; margin: 0 0 4px 0; color: #fff;">{{ credit.person.name }}</p>
+            <p style="font-size: 11px; color: #aaa; margin: 0;">{{ credit.character|default:credit.job.name }}</p>
+        </a>
+        {% endfor %}
     </div>
+</div>
 
-    <div style="margin-top: 40px; max-width: 900px; margin-left: auto; margin-right: auto;">
-        <p style="font-size: 22px; font-weight: 600; margin-bottom: 15px; color: #e5b509">Reseñas:</p>
+    <div style="max-width: 1100px; margin: 40px auto; padding: 0 20px;">
+        <h2 style="color: #e5b509; font-size: 24px; border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 20px;">Reseñas de Usuarios</h2>
         <div hx-trigger="listChanged from:body" hx-get="{% url 'movie_reviews' movie.id %}" hx-target="this">
             {% include "movies/reviews.html" %}
         </div>
     </div>
-     <div class="h-10"></div>
-</div>
 
-<style>
-    @media (max-width: 768px) {
-        .top-movie {
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            gap: 20px;
-        }
-        .movie-info {
-            justify-content: center;
-        }
-        .movie-genre {
-            justify-content: center;
-        }
-        .movie-details {
-            text-align: center;
-        }
-        .flex {
-            justify-content: center;
-        }
-    }
-    @media (max-width: 480px) {
-        .poster {
-            width: 180px;
-        }
-        .movie-title {
-            font-size: 22px;
-        }
-    }
-</style>
-
-<section class="container mx-auto px-5 py-10 lg:px-32 border-t border-gray-200 mt-10">
-  <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200 mb-8">
-    Películas que te podrían gustar
-  </h2>
-
-  <!-- Carrusel horizontal -->
-  <div class="flex space-x-6 overflow-x-auto pb-4 snap-x snap-mandatory">
-    {% for rec in recomendaciones %}
-    <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 
-                flex-shrink-0 w-48 snap-start">
-      <a href="{% url 'movie' rec.id %}">
-        <img 
-          class="w-full h-64 object-cover object-center"
-          src="https://image.tmdb.org/t/p/w500/{{ rec.poster_path }}" 
-          alt="{{ rec.title }}" 
-        />
-        <div class="p-3">
-          <h3 class="font-semibold text-sm text-gray-900 truncate">{{ rec.title }}</h3>
-          <p class="text-xs text-gray-500">{{ rec.release_date|date:"Y" }}</p>
+    <div style="max-width: 1100px; margin: 60px auto; padding: 0 20px;">
+        <h2 style="color: #e5b509; font-size: 24px; border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 20px;">Películas similares</h2>
+        <div style="display: flex; gap: 20px; overflow-x: auto; padding-bottom: 20px;">
+            {% for rec in recomendaciones %}
+            <div style="min-width: 180px; background: #1a1a1a; border-radius: 8px; overflow: hidden; border: 1px solid #333;">
+                <a href="{% url 'movie' rec.id %}" style="text-decoration: none; color: inherit;">
+                    <img src="https://image.tmdb.org/t/p/w500/{{ rec.poster_path }}" style="width: 100%; height: 250px; object-fit: cover;">
+                    <div style="padding: 10px;">
+                        <p style="font-size: 14px; font-weight: bold; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ rec.title }}</p>
+                        <p style="font-size: 12px; color: #888;">{{ rec.release_date|date:"Y" }}</p>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
         </div>
-      </a>
     </div>
-    {% empty %}
-    <p class="text-gray-500 italic">No hay recomendaciones disponibles basadas en géneros por ahora.</p>
-    {% endfor %}
-  </div>
-</section>
-
+</div>
 {% endblock content %}
