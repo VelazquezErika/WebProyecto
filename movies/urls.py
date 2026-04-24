@@ -8,9 +8,11 @@ urlpatterns = [
     path('all/', views.all_movies, name='all_movies'),
     path('search/', views.search_movies, name='search_movies'),
     path('<int:movie_id>/', views.movie, name='movie'),
+    path('actor/<int:actor_id>/', views.actor_detail, name='actor_detail'),
     
     # Colecciones y Mis Películas
     path('mis-peliculas/', views.mis_peliculas, name='mis_peliculas'),
+    path('random/', views.random_movies, name='random_movies'),
     
     # Reseñas
     path('movie_review/add/<int:movie_id>/', views.add_review, name='add_review'),
@@ -25,7 +27,6 @@ urlpatterns = [
     path('saludo/<int:veces>/', views.saludo, name='saludo'),
     path('', views.index, name='index'),
     path('all/', all_movies),
-    path('actor/<int:id>/', views.actor_detail, name='actor_detail'),
     path('<int:movie_id>/', movie),
     path('movie_review/add/<int:movie_id>/', add_review),
     path('movie_reviews/<int:movie_id>/', movie_reviews, name='movie_reviews'),

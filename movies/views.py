@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from movies.models import Movie, MovieReview, Person, MovieMas, MoviePrueba
+from movies.models import Movie, MovieReview, Person, MovieMas
 from movies.forms import MovieReviewForm, MovieMasCommentForm
 from django.db.models import Q
 
@@ -21,20 +21,30 @@ def search_movies(request):
         'query': query
     })
 
-def actor_detail(request, id):
-    actor = get_object_or_404(Person, id=id)
-    movies = actor.movie_credits.all()
+import requests
+from django.shortcuts import render, get_object_or_404
+from .models import Person
 
+def actor_detail(request, actor_id):
+    actor = get_object_or_404(Person, id=actor_id)
+    
+    actor_movies = actor.movie_credits.select_related('movie').filter(
+        movie__isnull=False
+    ).order_by('-movie__release_date')
+    
     return render(request, 'movies/actor_detail.html', {
         'actor': actor,
-        'movies': movies
+        'actor_movies': actor_movies,
     })
-
 def all_movies(request):
     movies = Movie.objects.all()
     context = { 'objetos': movies, 'message': 'welcome' }
     return render(request, 'movies/allmovies.html', context=context)
 
+def random_movies(request):
+    movies = Movie.objects.order_by('?')[:8]
+    return render(request, 'movies/movies_partial.html', {'movies': movies})
+    
 def index(request):
     movies = Movie.objects.order_by('-release_date')[:8]
     context = { 'movies': movies, 'message': 'welcome' }
